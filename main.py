@@ -99,7 +99,7 @@ def objective(trial):
 
 if __name__ == "__main__":
     # Model Monitoring with WandB
-    wandb_logger = None
+    wandb_logger = WandbLogger(project="ai-mlops-lab1")
     checkpoint_callback = ModelCheckpoint(monitor="val_loss", save_top_k=1, mode="min")
 
     # Run Hyperparameter Optimization
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     # Train Best Model
     best_model = LightningModel(learning_rate=best_params["learning_rate"])
     best_data_module = Data(batch_size=best_params["batch_size"])
-    trainer = pl.Trainer(max_epochs=2, callbacks=[checkpoint_callback])  # No WandB
+    trainer = pl.Trainer(max_epochs=2, callbacks=[checkpoint_callback], logger=wandb_logger)  # No WandB
 
     trainer.fit(best_model, best_data_module)
 

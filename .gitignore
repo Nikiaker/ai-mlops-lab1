@@ -1,0 +1,4 @@
+ai-mlops-lab1/
+data/
+lightning_logs/
+wandb/
